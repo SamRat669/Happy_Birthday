@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>22 Things I Love About You</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+    body {
+      background: linear-gradient(135deg, #fffbe7 0%, #ffe0f7 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Comic Neue', cursive, 'Comic Sans MS', 'Comic Sans', cursive;
+      overflow: hidden;
+      position: relative;
+      color: #ff1493;
+      user-select: none;
+    }
+    h1 {
+      margin-bottom: 30px;
+      font-size: 2.8em;
+      text-shadow: 2px 2px #ffe0f7;
+      z-index: 20;
+      position: relative;
+    }
+    #popup {
+      min-width: 320px;
+      min-height: 140px;
+      background: #fff;
+      border: 4px dashed #ff69b4;
+      border-radius: 25px 40px 30px 20px/30px 25px 40px 30px;
+      box-shadow: 0 8px 32px 0 rgba(255,105,180,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6em;
+      color: #333;
+      margin-bottom: 30px;
+      padding: 30px 40px;
+      position: relative;
+      opacity: 0;
+      transform: scale(0.8) rotate(-7deg);
+      transition: all 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+      text-align: center;
+      z-index: 20;
+      animation-duration: 0.5s;
+    }
+    #popup.show {
+      opacity: 1;
+      transform: scale(1) rotate(2deg);
+      animation-name: bounceIn;
+      animation-fill-mode: both;
+    }
+    @keyframes bounceIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.3) rotate(-7deg);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.1) rotate(5deg);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(2deg);
+      }
+    }
+    #nextBtn {
+      padding: 15px 40px;
+      background: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.4em;
+      cursor: pointer;
+      box-shadow: 0 4px 16px 0 rgba(255,105,180,0.25);
+      transition: background 0.3s, transform 0.3s;
+      font-family: inherit;
+      margin-top: 10px;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+      z-index: 20;
+    }
+    #nextBtn:hover:not(:disabled) {
+      background: #ff1493;
+      transform: scale(1.08) rotate(-2deg);
+      box-shadow: 0 6px 20px 0 rgba(255,20,147,0.7);
+    }
+    #nextBtn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+    #nextBtn:hover:not(:disabled)::after {
+      content: '✨';
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      font-size: 1.5em;
+      animation: sparkle 1.2s infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes sparkle {
+      0% { opacity: 0.3; transform: translateY(0) scale(1); }
+      100% { opacity: 1; transform: translateY(-5px) scale(1.3); }
+    }
+    /* Hearts container */
+    #hearts-container {
+      pointer-events: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      overflow: visible;
+      z-index: 5;
+    }
+    .floating-heart {
+      position: absolute;
+      will-change: transform, opacity;
+      pointer-events: none;
+      opacity: 0.85;
+      z-index: 5;
+    }
+  </style>
+</head>
+<body>
+  <h1>22 Things I Love About You</h1>
+  <div id="popup"></div>
+  <button id="nextBtn">Show me! 💖</button>
+  <div id="hearts-container"></div>
+  <script>
+const reasons = [
+  
+  "That smile — it should come with a warning label. Too contagious.",
+  "Your eyes? They don’t just look — they speak.",
+  "The way your laugh makes my day better, even if I don’t feel like smiling.",
+  "How you’ll fight the world for me — even if you're 5 feet of fury.",
+  "Your cuteness when you're annoyed (don’t deny it — it’s true).",
+  "How I can’t take you seriously when you're mad… because you're so short and still so cute.",
+  "How you care so deeply, even when you pretend to act chill.",
+  "The way you confidently take charge of situations — like you're on a mission to fix everything.",
+  "The way your face scrunches up when something’s mildly irritating.",
+  "Your stubborn little pout that shows up anytime I tease you.",
+  "B00TY So Big, Lord have mercy on me!",
+  "Your voice when you're excited — like you're about to burst into a happy explosion.",
+  "Your sass when you know you’re right (and yeah, you usually are).",
+  "How you remember the little things I say — even ones I forget.",
+  "How you make sitting around doing absolutely nothing feel like the best part of my day.",
+  "How your presence alone changes the vibe in the room — like it suddenly feels like home.",
+  "That rare, shy smile you give when you're really happy.",
+  "The way you roast me and when I get angry, you hit me with those puppy eyes 😒",
+  "Your protectiveness — soft on the outside, warrior on the inside.",
+  "That you’re small in size but giant in presence.",
+  "You could be mad at me and still hold my hand when crossing the street.",
+  "You. Just you. The way you are. The way you love. The way you are mine."
+];
+
+    let index = 0;
+    const popup = document.getElementById('popup');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function showReason() {
+      popup.classList.remove('show');
+      setTimeout(() => {
+        popup.textContent = reasons[index];
+        popup.classList.add('show');
+      }, 200);
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (index < reasons.length) {
+        showReason();
+        if (index === reasons.length - 1) {
+          nextBtn.textContent = "Aww, that's all! Come back next year for more! 🎉";
+          nextBtn.disabled = true;
+        }
+        index++;
+      }
+    });
+
+setTimeout(() => {
+  showReason();
+}, 300);
+
+
+    // SVG heart as a string
+    const heartSVG = encodeURIComponent(`
+      <svg width="100%" height="100%" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg">
+        <path d="M23.6,0c-2.6,0-5,1.3-6.6,3.3C15.4,1.3,13,0,10.4,0C4.7,0,0,4.7,0,10.4
+        c0,6.6,7.1,12,16,19.2c8.9-7.2,16-12.6,16-19.2C32,4.7,27.3,0,23.6,0z"
+        fill="#ff2e8d" stroke="#ff1493" stroke-width="2"/>
+      </svg>
+    `);
+
+    // Heart animation
+    const heartsContainer = document.getElementById('hearts-container');
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      // Random size
+      const size = 24 + Math.random() * 28;
+      heart.style.width = `${size}px`;
+      heart.style.height = `${size}px`;
+      // Random left, avoid center area (popup)
+      const centerAreaLeft = window.innerWidth / 2 - 220;
+      const centerAreaRight = window.innerWidth / 2 + 220;
+      let x;
+      do {
+        x = Math.random() * (window.innerWidth - size);
+      } while (x > centerAreaLeft && x < centerAreaRight);
+      heart.style.left = `${x}px`;
+      heart.style.top = `${window.innerHeight - size - 5}px`;
+      // Random duration and delay
+      const duration = 4 + Math.random() * 5;
+      const delay = Math.random() * 2;
+      // Random opacity
+      heart.style.opacity = 0.7 + Math.random() * 0.3;
+      // Set SVG as background
+      heart.style.background = `url('data:image/svg+xml,${heartSVG}') no-repeat center/contain`;
+      // Animate with JS for more natural movement
+      heartsContainer.appendChild(heart);
+
+      // Animate upward
+      let start = null;
+      const startY = window.innerHeight - size - 5;
+      const endY = -size - 40;
+      const drift = (Math.random() - 0.5) * 80; // random left/right drift
+      function animateHeart(ts) {
+        if (!start) start = ts;
+        const elapsed = (ts - start) / 1000;
+        const progress = Math.min(elapsed / duration, 1);
+        const y = startY + (endY - startY) * progress;
+        const driftX = x + drift * Math.sin(progress * Math.PI);
+        heart.style.top = `${y}px`;
+        heart.style.left = `${driftX}px`;
+        heart.style.opacity = 0.7 + 0.3 * (1 - progress);
+        if (progress < 1) {
+          requestAnimationFrame(animateHeart);
+        } else {
+          heart.remove();
+        }
+      }
+      setTimeout(() => requestAnimationFrame(animateHeart), delay * 1000);
+    }
+    // Create lots of hearts
+    setInterval(() => {
+      if (heartsContainer.childElementCount < 60) createHeart();
+    }, 90);
+  </script>
+</body>
+</html>

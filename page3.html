@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Weird Birthday Pictures</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #fff0f5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #ff1493;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    h2 {
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      text-align: center;
+      text-shadow: 2px 2px 8px #ffc0cb;
+      user-select: none;
+    }
+
+    .collage-container {
+      width: 90vw;
+      max-width: 1000px;
+      position: relative;
+    }
+
+    .collage-container img {
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(255, 20, 147, 0.3);
+      display: block;
+      user-select: none;
+    }
+
+    #nextButton {
+      margin: 30px auto 0;
+      background: linear-gradient(135deg, #ff6bbd, #ff1493);
+      border: none;
+      border-radius: 50px;
+      padding: 18px 50px;
+      font-size: 1.5em;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 8px 15px rgba(255, 20, 147, 0.4);
+      transition: all 0.3s ease;
+      font-weight: 600;
+      letter-spacing: 1px;
+      user-select: none;
+      outline: none;
+      display: block;
+      width: fit-content;
+    }
+
+    #nextButton:hover {
+      background: linear-gradient(135deg, #ff1493, #ff6bbd);
+      box-shadow: 0 12px 25px rgba(255, 20, 147, 0.7);
+      transform: scale(1.1);
+    }
+
+    #nextButton:active {
+      transform: scale(0.95);
+      box-shadow: 0 6px 10px rgba(255, 20, 147, 0.5);
+    }
+
+    /* Responsive font sizes */
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+      }
+      #nextButton {
+        font-size: 1.2em;
+        padding: 14px 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Birthday wish is incomplete without weird pictures!</h2>
+
+  <div class="collage-container">
+    <!-- Replace 'your-collage.png' with your Canva collage image file -->
+    <img src="Image1.png" alt="Weird Birthday Collage" />
+  </div>
+
+  <button id="nextButton" onclick="location.href='page4.html'">Next ➡️</button>
+
+</body>
+</html>

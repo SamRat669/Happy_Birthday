@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday Maya</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #fff0f5;
+      overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      position: relative;
+      user-select: none;
+    }
+
+    #centerMessage {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+      text-align: center;
+      color: #ff1493;
+      font-family: 'Pacifico', cursive;
+      font-size: 3.5em;
+      line-height: 1.2;
+      text-shadow: 2px 2px 8px #ffc0cb;
+      pointer-events: none;
+      max-width: 90vw;
+      padding: 20px 40px;
+      background: rgba(255, 182, 193, 0.15);
+      border-radius: 20px;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    #centerMessage span {
+      display: block;
+      font-size: 1.2em;
+      margin-top: 0.3em;
+      color: #ff69b4;
+      font-weight: 600;
+    }
+
+    .popWord {
+      position: fixed;
+      font-weight: 700;
+      color: #ff69b4;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      user-select: none;
+      white-space: nowrap;
+      font-size: 1.2em;
+      text-shadow: 1px 1px 3px #ffb6c1;
+      opacity: 0;
+      animation: popIn 0.6s forwards;
+      pointer-events: none;
+      will-change: transform, opacity;
+      transition: transform 0.3s ease;
+    }
+
+    @keyframes popIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.3) rotate(0deg);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2) rotate(10deg);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(var(--angle, 0deg));
+      }
+    }
+
+    #nextButton {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #ff6bbd, #ff1493);
+      border: none;
+      border-radius: 50px;
+      padding: 18px 50px;
+      font-size: 1.5em;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 8px 15px rgba(255, 20, 147, 0.4);
+      transition: all 0.3s ease;
+      outline: none;
+      user-select: none;
+      font-weight: 600;
+      letter-spacing: 1px;
+      animation: pulse 2.5s infinite;
+      z-index: 1100;
+    }
+    #nextButton:hover {
+      background: linear-gradient(135deg, #ff1493, #ff6bbd);
+      box-shadow: 0 12px 25px rgba(255, 20, 147, 0.7);
+      transform: translateX(-50%) scale(1.1);
+    }
+    #nextButton:active {
+      transform: translateX(-50%) scale(0.95);
+      box-shadow: 0 6px 10px rgba(255, 20, 147, 0.5);
+    }
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 8px 15px rgba(255, 20, 147, 0.4);
+      }
+      50% {
+        box-shadow: 0 12px 25px rgba(255, 20, 147, 0.7);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="centerMessage">
+    Happy Birthday Maya
+    <span>I love you &lt;3</span>
+  </div>
+
+  <button id="nextButton" onclick="location.href='page3.html'">Wait... there's more!</button>
+
+  <script>
+    const phrases = [
+      "Happy Birthday",
+      "Feliz Cumpleaños",
+      "Joyeux Anniversaire",
+      "Herzlichen Glückwunsch zum Geburtstag",
+      "Buon Compleanno",
+      "お誕生日おめでとう",
+      "생일 축하합니다",
+      "С днем рождения",
+      "عيد ميلاد سعيد",
+      "สุขสันต์วันเกิด",
+      "Feliz Aniversário",
+      "Grattis på födelsedagen",
+      "Tillykke med fødselsdagen",
+      "Hyvää syntymäpäivää",
+      "Selamat ulang tahun",
+      "Срећан рођендан",
+      "Χρόνια πολλά",
+      "Sretan rođendan",
+      "Maligayang kaarawan",
+      "Parabéns",
+      "जन्मदिनको शुभकामना",               // Nepali
+      "生日快乐",
+      "生日快樂",
+      "La mulți ani",
+      "Boldog születésnapot",
+      "Mutlu yıllar",
+      "Všetko najlepšie k narodeninám",
+      "Sto lat",
+      "Hauʻoli lā hānau",
+      "Chúc mừng sinh nhật",
+      "Gefeliciteerd",
+      "Gratulerer med dagen",
+      "Feliĉan naskiĝtagon",
+      "Zorionak",
+      "Lá breithe shona duit",
+      "Selamat Hari Jadi",
+      "Hauʻoli Lā Hānau"
+    ];
+
+    function getRectWithMargin(rect, margin) {
+      return {
+        left: rect.left - margin,
+        right: rect.right + margin,
+        top: rect.top - margin,
+        bottom: rect.bottom + margin
+      };
+    }
+
+    function isOverlapping(a, b) {
+      return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+    }
+
+    function placePhrases() {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const padding = 40;
+      const cols = 8;
+      const rows = 6;
+      const cellWidth = (vw - 2 * padding) / cols;
+      const cellHeight = (vh - 2 * padding) / rows;
+      const centerRect = getRectWithMargin(document.getElementById('centerMessage').getBoundingClientRect(), 40);
+      const buttonRect = getRectWithMargin(document.getElementById('nextButton').getBoundingClientRect(), 20);
+
+      // Shuffle phrases
+      const shuffled = phrases.slice();
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+
+      let phraseIndex = 0;
+      const usedRects = [];
+
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          if (phraseIndex >= shuffled.length) break;
+          // Calculate center of this cell
+          const x = padding + col * cellWidth + cellWidth / 2;
+          const y = padding + row * cellHeight + cellHeight / 2;
+
+          // Create the phrase element
+          const phrase = shuffled[phraseIndex];
+          const pop = document.createElement('div');
+          pop.className = 'popWord';
+          pop.textContent = phrase;
+
+          // Random angle between -35deg and 35deg
+          const angle = (Math.random() * 70 - 35).toFixed(1);
+          pop.style.setProperty('--angle', `${angle}deg`);
+
+          // Temporarily add offscreen to measure size
+          pop.style.left = '-9999px';
+          pop.style.top = '-9999px';
+          document.body.appendChild(pop);
+
+          // Now get its real size
+          const rect = pop.getBoundingClientRect();
+          // Adjust position to center the text in the cell
+          const left = x - rect.width / 2;
+          const top = y - rect.height / 2;
+          const phraseRect = {
+            left: left,
+            right: left + rect.width,
+            top: top,
+            bottom: top + rect.height
+          };
+
+          // Check overlap with center, button, and other phrases
+          let overlap = isOverlapping(phraseRect, centerRect) || isOverlapping(phraseRect, buttonRect);
+          for (let r of usedRects) {
+            if (isOverlapping(phraseRect, r)) {
+              overlap = true;
+              break;
+            }
+          }
+
+          // Also check if phrase goes out of viewport
+          if (
+            left < 0 ||
+            top < 0 ||
+            left + rect.width > vw ||
+            top + rect.height > vh
+          ) {
+            overlap = true;
+          }
+
+          if (overlap) {
+            pop.remove();
+            continue;
+          }
+
+          pop.style.left = `${left}px`;
+          pop.style.top = `${top}px`;
+          pop.style.animationDelay = `${(row * cols + col) * 0.12}s`;
+          usedRects.push(phraseRect);
+          phraseIndex++;
+        }
+      }
+    }
+
+    placePhrases();
+
+    window.addEventListener('resize', () => {
+      document.querySelectorAll('.popWord').forEach(e => e.remove());
+      placePhrases();
+    });
+  </script>
+
+</body>
+</html>
